@@ -1,0 +1,7 @@
+description "MoinMoin wiki with nginx: set up for wiki.labalme.com"
+author "Fen Labalme"
+start on filesystem and started nginx-proxy
+stop on runlevel [!2345]
+respawn
+exec /usr/bin/docker start -a moin-labalme
+pre-stop exec /usr/bin/docker stop -a moin-labalme

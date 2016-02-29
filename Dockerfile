@@ -1,11 +1,13 @@
 # VERSION 0.5
-# AUTHOR:         Olav Grønås Gjerde <olav@backupbay.com>
-# DESCRIPTION:    Image with MoinMoin wiki, uwsgi, nginx and self signed SSL
-# TO_BUILD:       docker build -t moinmoin .
-# TO_RUN:         docker run -it -p 80:80 -p 443:443 --name my_wiki moinmoin
+# AUTHOR:         Fen Labalme
+# FORKED FROM:    https://github.com/olavgg/moinmoin-wiki
+# DESCRIPTION:    Image with MoinMoin wiki, uwsgi, nginx
+# TO_BUILD_RUN:   bin/startup.sh
+
+# DOCUMENTATION:  Delegate SSL to https://github.com/jwilder/nginx-proxy
 
 FROM debian:jessie
-MAINTAINER Olav Grønås Gjerde <olav@backupbay.com>
+MAINTAINER Fen Labalme
 
 # Set the version you want of MoinMoin
 ENV MM_VERSION 1.9.8
@@ -32,6 +34,7 @@ RUN tar xf $MM_VERSION.tar.gz -C moinmoin --strip-components=1
 # Install MoinMoin
 RUN cd moinmoin && python setup.py install --force --prefix=/usr/local
 ADD wikiconfig.py /usr/local/share/moin/
+
 RUN mkdir /usr/local/share/moin/underlay
 RUN chown -Rh www-data:www-data /usr/local/share/moin/underlay
 # Because of a permission error with chown I change the user here
@@ -51,12 +54,6 @@ RUN ln -s /etc/nginx/sites-available/moinmoin.conf \
   /etc/nginx/sites-enabled/moinmoin.conf
 RUN rm /etc/nginx/sites-enabled/default
 
-# Create self signed certificate
-ADD generate_ssl_key.sh /usr/local/bin/
-RUN /usr/local/bin/generate_ssl_key.sh moinmoin.example.org
-RUN mv cert.pem /etc/ssl/certs/
-RUN mv key.pem /etc/ssl/private/
-
 # Cleanup
 RUN rm $MM_VERSION.tar.gz
 RUN rm -rf /moinmoin
@@ -68,7 +65,6 @@ RUN rm -rf /tmp/* /var/lib/apt/lists/*
 VOLUME /usr/local/share/moin/data
 
 EXPOSE 80
-EXPOSE 443
 
 CMD service rsyslog start && service nginx start && \
   uwsgi --uid www-data \

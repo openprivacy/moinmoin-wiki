@@ -65,7 +65,7 @@ class Config(multiconfig.DefaultConfig):
     # Wiki identity ----------------------------------------------------
 
     # Site name, used by default for wiki name-logo [Unicode]
-    sitename = u'Untitled Wiki'
+    sitename = u'Labalme Family Wiki'
 
     # Wiki logo. You can use an image, text or both. [Unicode]
     # For no logo or text, use '' - the default is to show the sitename.
@@ -81,7 +81,7 @@ class Config(multiconfig.DefaultConfig):
     page_front_page = u"FrontPage"
 
     # The interwiki name used in interwiki links
-    #interwikiname = u'UntitledWiki'
+    interwikiname = u'LabalmeWiki'
     # Show the interwiki name (and link it to page_front_page) in the Theme,
     # nice for farm setups or when your logo does not show the wiki's name.
     #show_interwiki = 1
@@ -91,12 +91,14 @@ class Config(multiconfig.DefaultConfig):
 
     # This is checked by some rather critical and potentially harmful actions,
     # like despam or PackageInstaller action:
-    superuser = [u"mmAdmin", ]
+    superuser = [u"FenLabalme", ]
 
     # IMPORTANT: grant yourself admin rights! replace YourName with
     # your user name. See HelpOnAccessControlLists for more help.
     # All acl_rights_xxx options must use unicode [Unicode]
     #acl_rights_before = u"YourName:read,write,delete,revert,admin"
+    acl_rights_before = u"FenLabalme:read,write,delete,revert,admin"
+    acl_rights_default  = "AccessGroup:admin,read,write,delete,revert All:"
 
     # The default (ENABLED) password_checker will keep users from choosing too
     # short or too easy passwords. If you don't like this and your site has
@@ -114,10 +116,10 @@ class Config(multiconfig.DefaultConfig):
     # or sending forgotten passwords.
 
     # SMTP server, e.g. "mail.provider.com" (None to disable mail)
-    #mail_smarthost = ""
-
+    mail_smarthost = "mail.comedia.com"
+   
     # The return address, e.g u"J�rgen Wiki <noreply@mywiki.org>" [Unicode]
-    #mail_from = u""
+    mail_from = u"Fen Wiki Labalme <fen@openprivacy.org>"
 
     # "user pwd" if you need to use SMTP AUTH
     #mail_login = ""
@@ -133,7 +135,7 @@ class Config(multiconfig.DefaultConfig):
     # according to the user selected language. [Unicode]
     navi_bar = [
         # If you want to show your page_front_page here:
-        u'%(page_front_page)s',
+        # u'%(page_front_page)s',
         u'RecentChanges',
         u'FindPage',
         u'HelpContents',
@@ -167,6 +169,6 @@ class Config(multiconfig.DefaultConfig):
     show_hosts = 1
 
     # Enable graphical charts, requires gdchart.
-    #chart_options = {'width': 600, 'height': 300}
+    chart_options = {'width': 600, 'height': 300}
 
 
